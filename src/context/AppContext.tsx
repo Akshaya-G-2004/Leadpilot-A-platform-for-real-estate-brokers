@@ -126,22 +126,22 @@ export function AppProvider({ children }: { children: ReactNode }) {
       setLeads((prev) =>
         prev.map((l) => {
           if (l.id === updatedData.id) {
-            let updatedAnalysis = updatedData.analysis_json || l.analysis_json;
+            let updatedAnalysis: any = updatedData.analysis_json || l.analysis_json;
             if (updatedData.scheduled_visit) {
               updatedAnalysis = { ...updatedAnalysis, scheduled_visit: updatedData.scheduled_visit };
             }
-            return { ...l, ...updatedData, analysis_json: updatedAnalysis as any };
+            return { ...l, ...updatedData, analysis_json: updatedAnalysis };
           }
           return l;
         })
       );
       setSelectedLead((prev) => {
         if (prev?.id === updatedData.id) {
-          let updatedAnalysis = updatedData.analysis_json || prev.analysis_json;
+          let updatedAnalysis: any = updatedData.analysis_json || prev.analysis_json;
           if (updatedData.scheduled_visit) {
             updatedAnalysis = { ...updatedAnalysis, scheduled_visit: updatedData.scheduled_visit };
           }
-          return { ...prev, ...updatedData, analysis_json: updatedAnalysis as any };
+          return { ...prev, ...updatedData, analysis_json: updatedAnalysis };
         }
         return prev;
       });
