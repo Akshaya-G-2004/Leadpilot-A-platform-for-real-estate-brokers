@@ -1,0 +1,66 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap');
+
+/* -------------------------------------------------
+   Tailwind’s core layers – must be first!
+   ------------------------------------------------- */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import "tailwindcss";
+/* optional – harmless, can stay or be removed */
+
+/* Root colour variables – used by your own CSS */
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+  --font-sans: 'Poppins', var(--font-poppins), system-ui, -apple-system, sans-serif;
+}
+
+/* Optional theme‑inline block – works with Tailwind too */
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: 'Poppins', var(--font-poppins), system-ui, -apple-system, sans-serif;
+  --font-mono: var(--font-geist-mono);
+}
+
+/* Dark‑mode overrides */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+/* Global body style – now uses the variables above */
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: 'Poppins', var(--font-poppins), system-ui, -apple-system, sans-serif;
+  overflow-x: hidden;
+}
+
+/* Slim modern scrollbars across all browsers */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #cbd5e1 transparent;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
