@@ -16,7 +16,7 @@ Real estate brokers receive dozens of messy inquiries daily across WhatsApp, por
   - **AI ChatBot (Right)**: Chat assistant grounded in the selected lead's budget and requirements.
 - **Leads Directory**: Full CRM spreadsheet table to search and filter all leads for easy data managment
 - **Calendar**: Month grid and agenda view of scheduled client site visits.
-Deployed on vercel : leadpilot-real-estate-broker-desk-b78c8sbg5.vercel.app
+--Deployed on vercel : https://leadpilot-real-estate-broker-desk.vercel.app/dashboard
 
 ### Features :
 - Intakes unstructured customer inquiries
