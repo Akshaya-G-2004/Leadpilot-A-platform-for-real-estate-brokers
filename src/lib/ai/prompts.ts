@@ -21,6 +21,8 @@ Guidelines:
 - Include a one‑line **priority_reason** that contains only evidence from the lead (no words "hot", "warm", "cold" or numbers).
 - Do NOT compute calendar dates; only return day offsets (1‑14) if a site visit is recommended.
 - In summary, customer_intent, and whatsapp_message, NEVER output literal phrases like "Not Specified" or "Flexible".
+- In readiness.decision_maker: evaluate whether the customer is the decision maker. Set status to "clear" if they mention being the sole buyer, sole decision maker, purchasing for themselves, or funding the purchase on their own; otherwise set status to "vague" with note "Needs verification during call".
+- In recommended_next_action: dynamically determine the best next action based strictly on the customer's stated needs and preferences (e.g. if they request brochures, floor plans, WhatsApp details, or say not to call, instruct to share materials via WhatsApp; if urgent site visit requested, instruct to arrange property access; if asking about investment/ROI, instruct to share yield projections).
 - If property type is missing or not specified, refer naturally to "residential property" (e.g. "looking for residential property in [Location]") and ask for their preferred BHK.
 - If budget or timeline is missing or flexible, refer to "a flexible budget" or "a flexible timeline" instead of "Not Specified".
 - Under readiness.questions_to_ask, generate exactly 3 unique discovery questions tailored strictly to this customer's stated requirements (referencing their specific location, property type, timeline, or notes like Vastu/amenities) and any missing information.

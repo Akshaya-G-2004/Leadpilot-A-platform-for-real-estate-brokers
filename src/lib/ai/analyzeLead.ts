@@ -91,6 +91,23 @@ export function normalizeLeadSignalsAndReadiness(
     analysis.priority_reason = "Immediate moving timeline with high purchasing urgency.";
   }
 
+  // Dynamic Decision Maker evaluation
+  if (/sole buyer|sole decision|decision maker|buying for myself|self-financed|on my own|direct buyer|pre-sanctioned|sole purchaser/i.test(combinedText)) {
+    if (analysis.readiness?.decision_maker) {
+      analysis.readiness.decision_maker.status = "clear";
+      analysis.readiness.decision_maker.note = "Sole decision maker stated in inquiry";
+    }
+  }
+
+  // Dynamic Recommended Next Action alignment
+  if (/do not call|don't call|no calls|whatsapp first|send brochure|send floor plan|send details|share brochure/i.test(combinedText)) {
+    analysis.recommended_next_action = "Share project brochures and floor plans via WhatsApp before calling as requested.";
+  } else if (/invest|rental yield|roi|capital appreciation/i.test(combinedText)) {
+    analysis.recommended_next_action = "Share high-yield investment options and projected rental ROI.";
+  } else if (/site visit|visit this weekend|see the flat|inspect|view the property/i.test(combinedText)) {
+    analysis.recommended_next_action = "Coordinate immediate site visit and confirm slot with property executive.";
+  }
+
   // Upgrade old generic discovery questions for existing leads
   const isOldGeneric =
     !analysis.readiness?.questions_to_ask ||
@@ -204,7 +221,13 @@ function makeFallbackAnalysis(input: {
       isBudgetMissing ? "Flexible Budget" : `Budget around ${input.budget}`,
     ],
     objections: [],
-    recommended_next_action: "Call lead to confirm property availability and schedule site visit.",
+    recommended_next_action: /do not call|don't call|no calls|whatsapp first|send brochure|send floor plan|send details|share brochure/i.test(combinedText)
+      ? "Share project brochures and floor plans via WhatsApp before calling as requested."
+      : /invest|rental yield|roi|capital appreciation/i.test(combinedText)
+      ? "Share high-yield investment options and projected rental ROI."
+      : /site visit|visit this weekend|see the flat|inspect|view the property/i.test(combinedText)
+      ? "Coordinate immediate site visit and confirm slot with property executive."
+      : "Call lead to confirm property availability and schedule site visit.",
     suggested_response: `Hi ${input.name}, thanks for reaching out. We have options matching ${propSummary} ${locSummary} with ${budgetSummary}. When is a good time to connect?`,
     detected_language: "en",
     priority_reason: timeline_urgency >= 8
@@ -229,7 +252,9 @@ function makeFallbackAnalysis(input: {
         status: !input.timeline || input.timeline === "Not Specified" ? "missing" : timeline_status,
         note: input.timeline || "Not specified",
       },
-      decision_maker: { status: "vague", note: "Needs verification during call" },
+      decision_maker: /sole buyer|sole decision|decision maker|buying for myself|self-financed|on my own|direct buyer|pre-sanctioned|sole purchaser/i.test(combinedText)
+        ? { status: "clear", note: "Sole decision maker stated in inquiry" }
+        : { status: "vague", note: "Needs verification during call" },
       questions_to_ask: [
         /vastu|east|west|north|south|facing/i.test(input.message)
           ? "Besides Vastu and direction preference, do you have any specific floor or balcony view requirements?"
@@ -320,7 +345,10 @@ Customer Message: ${input.message}
   const groqKey = process.env.GROQ_API_KEY;
   if (groqKey) {
     try {
-      const model = process.env.GROQ_MODEL ?? "llama-3.3-70b-versatile";
+      const envModel = process.env.GROQ_MODEL?.trim();
+      const model = envModel && !envModel.toLowerCase().includes("openai")
+        ? envModel
+        : "llama-3.3-70b-versatile";
       const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
         method: "POST",
         headers: {
