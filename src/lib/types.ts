@@ -34,7 +34,7 @@ export type Analysis = {
   objections: string[];
   recommended_next_action: string;
   suggested_response: string;
-  detected_language: "en";
+  detected_language: string;
   priority_reason: string;
   signals: SignalSet;
   readiness: Readiness;
