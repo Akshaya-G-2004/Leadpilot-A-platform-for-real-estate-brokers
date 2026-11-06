@@ -135,7 +135,7 @@ export async function POST(req: NextRequest) {
       readiness_pct,
       status: "New",
       analysis_provider: provider as Lead["analysis_provider"],
-      analysis_json: analysis,
+      analysis_json: analysis as any,
     };
 
     // 3. Save to Turso DB

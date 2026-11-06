@@ -23,7 +23,7 @@ export type Readiness = {
 export type SiteVisit = {
   recommended: boolean;
   preferred_day_offsets: number[]; // 1-14 if recommended
-  preferred_time_of_day: "morning" | "afternoon" | "evening";
+  preferred_time_of_day: string;
   reason: string;
 };
 
