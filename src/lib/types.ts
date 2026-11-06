@@ -23,7 +23,7 @@ export type Readiness = {
 export type SiteVisit = {
   recommended: boolean;
   preferred_day_offsets: number[]; // 1-14 if recommended
-  preferred_time_of_day: string;
+  preferred_time_of_day: "morning" | "afternoon" | "evening";
   reason: string;
 };
 
@@ -34,7 +34,7 @@ export type Analysis = {
   objections: string[];
   recommended_next_action: string;
   suggested_response: string;
-  detected_language: string;
+  detected_language: "en";
   priority_reason: string;
   signals: SignalSet;
   readiness: Readiness;

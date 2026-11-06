@@ -14,7 +14,7 @@ export const analysisSchema = z.object({
   objections: z.array(z.string()).default([]),
   recommended_next_action: z.string(),
   suggested_response: z.string().max(2000),
-  detected_language: z.string().default("en"),
+  detected_language: z.literal("en").catch("en").default("en"),
   priority_reason: z.string().default("Direct inquiry with buyer requirements."),
 
   // ----------------------- signals (0‑10) -----------------------
@@ -54,7 +54,7 @@ export const analysisSchema = z.object({
   site_visit: z.object({
     recommended: z.boolean().default(true),
     preferred_day_offsets: z.array(z.number()).default([2, 4]),
-    preferred_time_of_day: z.string().default("morning"),
+    preferred_time_of_day: z.enum(["morning", "afternoon", "evening"]).catch("morning").default("morning"),
     reason: z.string().default("Follow up with buyer to confirm visit."),
   }),
 
